@@ -1,0 +1,17 @@
+# Java
+target/
+
+# Node
+node_modules/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+
+# Variables de entorno
+.env
+
+# IDE
+.vscode/
+.idea/
