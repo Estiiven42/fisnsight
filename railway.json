@@ -1,0 +1,9 @@
+{
+  "build": {
+    "builder": "RAILPACK",
+    "buildCommand": "cd servicio-autenticacion && mvn clean package"
+  },
+  "deploy": {
+    "startCommand": "cd servicio-autenticacion && java -jar target/*.jar"
+  }
+}
