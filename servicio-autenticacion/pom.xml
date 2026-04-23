@@ -20,15 +20,30 @@
   </properties>
 
   <dependencies>
+    
+    <!-- Web -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
+
+    <!-- 🔥 JPA (BASE DE DATOS) -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-jpa</artifactId>
+    </dependency>
+
+    <!-- 🔥 POSTGRES (SUPABASE) -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+    </dependency>
+
   </dependencies>
 
-  <!-- 🔥 ESTO ES LO QUE TE FALTABA -->
   <build>
     <plugins>
+      <!-- 🔥 PERMITE GENERAR EL .JAR EJECUTABLE -->
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
