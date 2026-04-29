@@ -4,26 +4,25 @@ import com.finsight.autenticacion.dto.PeticionLogin;
 import com.finsight.autenticacion.dto.PeticionRegistro;
 import com.finsight.autenticacion.dto.RespuestaToken;
 import com.finsight.autenticacion.servicios.ServicioAutenticacion;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/auth") // 🔥 ESTO ES CLAVE
 public class ControladorAutenticacion {
 
-    private final ServicioAutenticacion servicioAutenticacion;
+    private final ServicioAutenticacion servicio;
 
-    public ControladorAutenticacion(ServicioAutenticacion servicioAutenticacion) {
-        this.servicioAutenticacion = servicioAutenticacion;
+    public ControladorAutenticacion(ServicioAutenticacion servicio) {
+        this.servicio = servicio;
     }
 
-    @PostMapping("/registrar")
-    public ResponseEntity<RespuestaToken> registrar(@RequestBody PeticionRegistro peticion) {
-        return ResponseEntity.ok(servicioAutenticacion.registrar(peticion));
+    @PostMapping("/registro")
+    public RespuestaToken registrar(@RequestBody PeticionRegistro peticion) {
+        return servicio.registrar(peticion);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<RespuestaToken> login(@RequestBody PeticionLogin peticion) {
-        return ResponseEntity.ok(servicioAutenticacion.login(peticion));
+    public RespuestaToken login(@RequestBody PeticionLogin peticion) {
+        return servicio.login(peticion);
     }
 }

@@ -23,25 +23,40 @@ public class ServicioAutenticacion {
     }
 
     public RespuestaToken registrar(PeticionRegistro peticion) {
-        if (repositorioUsuario.existsByCorreo(peticion.getCorreo())) {
-            throw new RuntimeException("El correo ya esta registrado");
-        }
-        Usuario usuario = new Usuario();
-        usuario.setNombre(peticion.getNombre());
-        usuario.setCorreo(peticion.getCorreo());
-        usuario.setContrasenaHash(codificador.encode(peticion.getContrasena()));
-        repositorioUsuario.save(usuario);
-        String token = servicioJwt.generarToken(usuario.getCorreo());
-        return new RespuestaToken(token, usuario.getId(), usuario.getNombre());
+    if (repositorioUsuario.existsByCorreo(peticion.getCorreo())) {
+        throw new RuntimeException("El correo ya esta registrado");
     }
+
+    Usuario usuario = new Usuario();
+    usuario.setNombre(peticion.getNombre());
+    usuario.setCorreo(peticion.getCorreo());
+    usuario.setContrasenaHash(codificador.encode(peticion.getContrasena()));
+
+    usuario = repositorioUsuario.save(usuario); // 🔥 IMPORTANTE
+
+    String token = servicioJwt.generarToken(usuario.getCorreo());
+
+    return new RespuestaToken(
+            token,
+            usuario.getId().toString(),
+            usuario.getNombre()
+    );
+}
 
     public RespuestaToken login(PeticionLogin peticion) {
         Usuario usuario = repositorioUsuario.findByCorreo(peticion.getCorreo())
-            .orElseThrow(() -> new RuntimeException("Credenciales incorrectas"));
+                .orElseThrow(() -> new RuntimeException("Credenciales incorrectas"));
+
         if (!codificador.matches(peticion.getContrasena(), usuario.getContrasenaHash())) {
             throw new RuntimeException("Credenciales incorrectas");
         }
+
         String token = servicioJwt.generarToken(usuario.getCorreo());
-        return new RespuestaToken(token, usuario.getId(), usuario.getNombre());
+
+        return new RespuestaToken(
+                token,
+                usuario.getId().toString(), // 🔥 FIX AQUÍ
+                usuario.getNombre()
+        );
     }
 }
